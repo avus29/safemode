@@ -17,6 +17,19 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        body {
+            .level {display:flex; align-items:center; }
+            . fle {flex:1;}
+        }
+    </style>
+
+    {{-- Script --}}
+    <script>
+        window.laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
 </head>
 <body>
     <div id="app">

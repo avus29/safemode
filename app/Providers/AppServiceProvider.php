@@ -16,6 +16,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+
+        //persists channels list on a ll pages.
+        \View::share('channels', \GistMed\Channel::all());
     }
     /**
      * Register any application services.

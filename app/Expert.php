@@ -55,5 +55,14 @@ class Expert extends Authenticatable
         return $this->hasMany('GistMed\Answer','expert_id','id');
     }
 
-    
+     //Return the replies associated with an expert
+     public function replies(){
+        return $this->hasMany('GistMed\Reply','expert_id','id');
+    }
+
+    //Return the threads created by an expert
+    public function threads(){
+        return $this->hasMany('GistMed\Thread','expert_id','id');
+    }
+
 }

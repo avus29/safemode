@@ -62,4 +62,13 @@ Route::post('comments/{blog_id}',['uses'=>'CommentsController@store', 'as'=>'com
 //Routes for admin functionality
 Route::get('/admin', 'OgaController@index')->name('oga.dashboard');
 
+//Routes for threads
 
+Route::get('/threads','ThreadsController@index')->name('threads.index');
+Route::get('/threads/create','ThreadsController@create')->name('threads.create');
+Route::get('/threads/{channel}/{thread}','ThreadsController@show')->name('threads.show');
+Route::post('/threads/store','ThreadsController@store')->name('threads.store');
+Route::get('/threads/{channel}','ThreadsController@index')->name('threads.index');
+Route::post('/threads/{channel}/{thread}/replies','RepliesController@store')->name('replies.store');
+
+Route::post('/replies/{reply}/favourites', 'FavouritesController@store');

@@ -22,3 +22,29 @@ $factory->define(GistMed\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+//Generate fake threads
+$factory->define(GistMed\Thread::class, function (Faker $faker) {
+    return [
+        'expert_id'=>function(){
+            return factory('GistMed\Expert')->create()->id;
+        },
+        'title'=>$faker->sentence(),
+        'body'=>$faker->paragraph(),
+
+    ];
+});
+
+//Generate fake replies
+$factory->define(GistMed\Reply::class, function (Faker $faker) {
+    return [
+        'expert_id'=>function(){
+            return factory('GistMed\Expert')->create()->id;
+        },
+        'thread_id'=>function(){
+            return factory('GistMed\Thread')->create()->id;
+        },
+        'body'=>$faker->paragraph(),
+
+    ];
+});

@@ -28,7 +28,7 @@
                             <div class="dropdown-menu" aria-labelledby="triggerId">
                                 <a class="dropdown-item text-success" href="/threads/create">New Threads</a>
                                 <a class="dropdown-item text-success" href="/threads">All Threads</a>
-                                <a class="dropdown-item text-success" href="/threads?popular=1">Popular pThreads</a>
+                                <a class="dropdown-item text-success" href="/threads?popular=1">Popular Threads</a>
                                 <a class="dropdown-item text-success" href="/threads?by={{Auth::guard('expert')->user()->last_name}}+{{Auth::guard('expert')->user()->first_name}}&whose={{Auth::guard('expert')->user()->id}}">MyThreads</a>
                             </div>
                         </div>
@@ -71,6 +71,8 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             
                             <a class="dropdown-item" href="{{ route('expert.dashboard') }}">Dashboard</a>
+
+                        <a class="dropdown-item" href="/profile/{{Auth::guard('expert')->id()}}">My Profile</a>
                             
                             <a class="dropdown-item" href="{{ route('expert.logout') }}">
                                 {{ __('Logout') }}

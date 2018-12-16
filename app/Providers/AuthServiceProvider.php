@@ -4,6 +4,8 @@ namespace GistMed\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use GistMed\Policies\ReplyPolicy;
+use GistMed\Policies\ThreadPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'GistMed\Model' => 'GistMed\Policies\ModelPolicy',
+        'GistMed\Thread' => ThreadPolicy::class,
+        'GistMed\Reply' => ReplyPolicy::class,
     ];
 
     /**

@@ -8,7 +8,10 @@ use GistMed\ThreadFilters;
 
 class Thread extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
+    protected $with = ['creator','channel'];
 
     protected static function boot()
     {
@@ -17,11 +20,19 @@ class Thread extends Model
         static::addGlobalScope('replyCount', function ($builer){
             $builer->withCount('replies');
         });
+
+        static::deleting(function ($thread){
+            $thread->replies->each->delete();
+            // $thread->replies->each(function ($reply){
+            //     $reply ->delete();
+            // });
+        });
+
     }
 
     //return the replies to this thread.
     public function replies(){
-       return $this->hasMany(Reply::class);
+       return $this->hasMany(Reply::class)->withCount('favourites')->with('author');
     }
 
     //return the expert who is the creator of this thread.

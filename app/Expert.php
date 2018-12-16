@@ -62,7 +62,18 @@ class Expert extends Authenticatable
 
     //Return the threads created by an expert
     public function threads(){
-        return $this->hasMany('GistMed\Thread','expert_id','id');
+        return $this->hasMany('GistMed\Thread','expert_id','id')->latest();
     }
+
+    //Return the experts activity log
+    public function activity()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    // public function getRouteKeyName()
+    // {
+    //     return 'name';
+    // }
 
 }

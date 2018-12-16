@@ -15,10 +15,13 @@ class FavouritesController extends Controller
     }
 
     public function store(Reply $reply)
-    {
-        // dd($reply);
-        
+    {     
         $reply->favourite();
         return back();
+    }
+
+    public function destroy(Reply $reply)
+    {
+        $reply->unfavourite();
     }
 }

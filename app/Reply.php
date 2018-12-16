@@ -8,7 +8,14 @@ use GistMed\Expert;
 
 class Reply extends Model
 {
+
+    use  Favouritable, RecordsActivity;
+
     protected $guarded = [];
+
+    protected $appends = ['favouritesCount'];
+
+    protected $with = ['author','favourites',];
 
     //returns the thread which has this reply
     public function thread(){
@@ -18,25 +25,6 @@ class Reply extends Model
     //returns the expert who is the author of a reply
     public function author(){
         return  $this->belongsTo(Expert::class,'expert_id');
-    }
-
-    //returns favourited reply???
-    public function favourites()
-    {
-        return $this->morphMany(Favourite::class, 'favourited');
-    }
-
-    public function favourite()
-    {
-        $attributes = ['expert_id' => auth('expert')->id()];
-
-        if(!$this->favourites()->where($attributes)->exists()){
-           return $this->favourites()->create($attributes);
-        }
-    }
-    
-    public function isFavourited(){
-        return $this->favourites()->where('expert_id' ,auth('expert')->id())->exists();
     }
 
 }

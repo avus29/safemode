@@ -3,6 +3,6 @@
     <div class="list-group">
         <a href="{{ route('expert.dashboard') }}" class="list-group-item">Questions</a>
         <a href="{{ route('expert.articles') }}" class="list-group-item">Articles</a>
-    <a href="{{ route('expert.profile') }}" class="list-group-item">Profile</a>
+        <a href="{{ route('expert.profile.test') }}" class="list-group-item">Profile</a>
     </div>
 </div>

@@ -78,10 +78,11 @@ class ThreadsController extends Controller
      * @param  \GistMed\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show($channelID, Thread $thread)
+    public function show($channel, Thread $thread)
     {
         //Find replies associated with thread
         $replies = $thread->replies()->paginate(20);
+        // return $replies;
                 
         return view('threads.show',compact('thread','replies'));    
     }
@@ -94,7 +95,7 @@ class ThreadsController extends Controller
      */
     public function edit(Thread $thread)
     {
-        //
+       
     }
 
     /**
@@ -115,9 +116,16 @@ class ThreadsController extends Controller
      * @param  \GistMed\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
+    public function destroy(Channel $channel, Thread $thread)
     {
-        //
+        //Deny access if logged in user is not the creator of the thread
+        $this->authorize('update',$thread);
+        // if($thread->expert_id != auth('expert')->userid()){
+        //     abort(403, 'You do not have permission to delete this file');
+        // }
+
+        $thread->delete();
+        return redirect('/threads')->with('success','Thread deleted');
     }
 
     public function getThreads($channel,$filters)
@@ -128,6 +136,6 @@ class ThreadsController extends Controller
             $threads->where('channel_id',$channel->id);
         }
 
-        return $threads->get();;
+        return $threads->get();
     }
 }

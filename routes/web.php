@@ -47,7 +47,7 @@ Route::prefix('expert')->group(function(){
     //Expert dashboard routes
     Route::get('/', 'ExpertController@index')->name('expert.dashboard');
     Route::get('/articles', 'ExpertController@articles')->name('expert.articles');
-    Route::get('/profile', 'ExpertController@profile')->name('expert.profile');
+    Route::get('/profile', 'ExpertController@profile')->name('expert.profile.test');
 
 });
 
@@ -63,12 +63,20 @@ Route::post('comments/{blog_id}',['uses'=>'CommentsController@store', 'as'=>'com
 Route::get('/admin', 'OgaController@index')->name('oga.dashboard');
 
 //Routes for threads
-
 Route::get('/threads','ThreadsController@index')->name('threads.index');
 Route::get('/threads/create','ThreadsController@create')->name('threads.create');
 Route::get('/threads/{channel}/{thread}','ThreadsController@show')->name('threads.show');
+Route::delete('/threads/{channel}/{thread}','ThreadsController@destroy')->name('threads.delete');
 Route::post('/threads/store','ThreadsController@store')->name('threads.store');
 Route::get('/threads/{channel}','ThreadsController@index')->name('threads.index');
-Route::post('/threads/{channel}/{thread}/replies','RepliesController@store')->name('replies.store');
 
+//Routes for favourites
 Route::post('/replies/{reply}/favourites', 'FavouritesController@store');
+Route::delete('/replies/{reply}/favourites', 'FavouritesController@destroy');
+
+//Routes for replies
+Route::post('/threads/{channel}/{thread}/replies','RepliesController@store')->name('replies.store');
+Route::delete('/replies/{reply}','RepliesController@destroy')->name('replies.delete');
+Route::patch('/replies/{reply}','RepliesController@update')->name('replies.update');
+
+Route::get('/profile/{expert}', 'ProfilesController@show')->name('expert.profile');

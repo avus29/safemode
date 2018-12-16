@@ -4,6 +4,7 @@ namespace GistMed\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use GistMed\Channel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,7 +19,13 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         //persists channels list on a ll pages.
-        \View::share('channels', \GistMed\Channel::all());
+        // \View::z('channels', \GistMed\Channel::all());
+        \View::composer('*',function($view){
+           $channels = \Cache::rememberForever('channels', function(){
+               return Channel::all();
+           });
+            $view->with('channels',Channel::all());
+        });
     }
     /**
      * Register any application services.
@@ -27,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // if($this->app->isLocal()){
+        //     $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        // }
     }
 }

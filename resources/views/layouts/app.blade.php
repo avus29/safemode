@@ -17,30 +17,18 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-        body {
-            .level {display:flex; align-items:center; }
-            . fle {flex:1;}
-        }
-    </style>
-
-    {{-- Script --}}
-    <script>
-        window.laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
-    </script>
 </head>
 <body>
     <div id="app">
-            @include('inc.navbar')
-            <div class="container">
-                @include('inc.messages')
-                @yield('content')
-            </div>
-        </div> 
-    </div>
-    <br/>
+        @include('inc.navbar')
+        <div class="container">
+            @include('inc.messages')
+            @yield('content')
+            <flash></flash>
+        </div>
+    </div> 
+        
+        {{-- <flash message="Temporary message"></flash> --}}
     @include('inc.footer')
     
         <!-- Scripts -->

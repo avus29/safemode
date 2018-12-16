@@ -11,7 +11,25 @@
                 <div class="col-md">
                     <div class="card">
                         <div class="card-header bg-white text-primary">
-                            <h4><b>{{$thread->title}}</b></h4>
+                            <h4><b>{{$thread->title}}</b>
+                            </h4>
+                            @if(Auth::guard('expert')->id() == $thread->expert_id)
+                            {{-- @can('update',$thread) --}}
+                                 <form action="/threads/{{$thread->channel->channel}}/{{$thread->id}}" method="POST">
+                                   {{ csrf_field() }}
+                                   {{method_field('DELETE')}}
+
+                                   <button type="submit" class="btn btn-danger float-right">Delete Thread</button>
+                                </form>
+                            {{-- @endcan --}}
+                               
+                            @endif
+                            
+                            {{-- {!!Form::open(['action'=>['ThreadsController@destroy',$thread->channel->channel,$thread->id],'method'=>'POST', 'class'=>'float-right'])!!}
+                                {{Form::hidden('_method','DELETE')}}
+                                {{Form::submit('Delete',['class'=>'btn btn-danger'])}}
+                            {!!Form::close()!!} --}}
+
                         <p class="text-secondary">By <b>{{$thread->creator->last_name}}</b> on <b>{{$thread->created_at->diffForHumans()}}</b></p>
                         </div>
 
@@ -28,16 +46,28 @@
                         <div class="card-header"><b>Replies</b></div>
                         <div class="card-body">                        
                             @foreach ($replies as $reply)
-                                <div class="card">   
+                                <div id="reply-{{$reply->id}}" class="card">   
                                     <div class="card-header">
                                         <a href="#">{{$reply->author->last_name}}</a> said <em>{{$reply->created_at->diffForHumans()}}</em>
                                         <form action="/replies/{{$reply->id}}/favourites" method="POST">
                                             {{ csrf_field() }}
-                                        <button type="submit" class="btn btn-success float-right" {{$reply->isFavourited()?'disabled':''}}>{{$reply->favourites->count()}} {{str_plural('Favourite',$reply->favourites->count())}}</button>
+                                        <button type="submit" class="btn btn-success float-right" {{$reply->isFavourited()?'disabled':''}}>{{$reply->favourites_count}} {{str_plural('Favourite',$reply->favourites_count)}}</button>
                                         </form>
+                                       
                                     </div>
                                     <div class="card-body">                            
                                         <p class="card-text">  {{$reply->reply}}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-primary float-right">Edit</button>
+
+                                         @if(Auth::guard('expert')->id() == $reply->expert_id)
+                                            <form action="/replies/{{$reply->id}}" method="post">
+                                                {{csrf_field()}}
+                                                {{method_field('DELETE')}}
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        @endif
                                     </div>
                                     
                                         {{$replies->links()}}
